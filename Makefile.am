@@ -80,7 +80,9 @@ pkgdata_DATA				=
 sbin_SCRIPTS				=
 sbin_PROGRAMS				=
 EXTRA_PROGRAMS				=
-EXTRA					=
+EXTRA					= include/argylews.h \
+					  lib/libargylews.la \
+					  lib/libargylews.a
 
 
 # lists
@@ -95,7 +97,10 @@ EXTRA_DIST				= $(noinst_HEADERS) \
 					  COPYING.md \
 					  NEWS.md \
 					  README.md \
-					  TODO.md
+					  TODO.md \
+					  include/argylews.h \
+					  include/argylews_compat.h \
+					  lib/libargylews/libargylews.sym
 CLEANFILES				= $(builddir)/a.out   $(srcdir)/a.out \
 					  $(builddir)/*/a.out $(srcdir)/*/a.out \
 					  config.h.in~ $(srcdir)/config.h.in~ \
@@ -118,6 +123,36 @@ DISTCHECK_CONFIGURE_FLAGS		= --enable-strictwarnings \
 
 
 # conditional build
+if ENABLE_LIBRARIES
+   noinst_LIBRARIES			+= lib/libargylews.a
+endif
+if ENABLE_LTLIBRARIES
+   lib_LTLIBRARIES			+= lib/libargylews.la
+   include_HEADERS			+= include/argylews.h
+endif
+
+
+# macros for lib/libargylews.a
+lib_libargylews_a_DEPENDENCIES		= Makefile \
+					  config.h \
+					  $(BINDLE_LIBBINDLE_DEPS)
+lib_libargylews_a_CPPFLAGS		= $(AM_CPPFLAGS) -I$(srcdir)/lib/libargylews
+lib_libargylews_a_SOURCES		= $(noinst_HEADERS) \
+					  $(BINDLE_LIBBINDLE_SRCS) \
+					  lib/libargylews/libargylews.h \
+					  lib/libargylews/lversion.c \
+					  lib/libargylews/lversion.h
+
+
+# macros for lib/libargylews.la
+lib_libargylews_la_DEPENDENCIES		= $(lib_libargylews_a_DEPENDENCIES) \
+					  lib/libargylews/libargylews.sym
+lib_libargylews_la_CPPFLAGS		= $(AM_CPPFLAGS) -I$(srcdir)/lib/libargylews
+lib_libargylews_la_LDFLAGS		= -rpath'$(libdir)' \
+					  -version-info $(LIB_VERSION_INFO) \
+					  $(AM_LDFLAGS) \
+					  -export-symbols $(srcdir)/lib/libargylews/libargylews.sym
+lib_libargylews_la_SOURCES		= $(lib_libargylews_a_SOURCES)
 
 
 # Makefile includes

@@ -30,5 +30,99 @@
 #   acinclude.m4 - custom m4 macros used by configure.ac
 #
 
+# AC_ARGYLEWS_LIBRARIES()
+# ______________________________________________________________________________
+AC_DEFUN([AC_ARGYLEWS_LIBRARIES],[dnl
+
+   enableval=""
+   AC_ARG_ENABLE(
+      libraries,
+      [AS_HELP_STRING([--disable-libraries], [install Argyle WebSockets libraries])],
+      [ ELIBRARIES=$enableval ],
+      [ ELIBRARIES=$enableval ]
+   )
+   enableval=""
+   AC_ARG_ENABLE(
+      utilities,
+      [AS_HELP_STRING([--disable-utilities], [install Argyle Websockets utilities])],
+      [ EUTILITIES=$enableval ],
+      [ EUTILITIES=$enableval ]
+   )
+   enableval=""
+   AC_ARG_ENABLE(
+      maintainer,
+      [AS_HELP_STRING([--enable-maintainer], [build project maintainer utilities])],
+      [ EMAINTAINER=$enableval ],
+      [ EMAINTAINER=$enableval ]
+   )
+   enableval=""
+   AC_ARG_ENABLE(
+      examples,
+      [AS_HELP_STRING([--enable-examples], [build Argyle WebSockets examples])],
+      [ EEXAMPLES=$enableval ],
+      [ EEXAMPLES=$enableval ]
+   )
+
+   if test "x${ELIBRARIES}" == "xno";then
+      ENABLE_LTLIBRARIES="no"
+   else
+      ENABLE_LTLIBRARIES="yes"
+   fi
+
+   if test "x${EUTILITIES}" == "xno";then
+      ENABLE_UTILITIES="no"
+   else
+      ENABLE_UTILITIES="yes"
+   fi
+
+   if test "x${EMAINTAINER}" == "xyes";then
+      ENABLE_MAINTAINER="yes"
+   else
+      ENABLE_MAINTAINER="no"
+   fi
+
+   if test "x${EEXAMPLES}" == "xyes";then
+      ENABLE_EXAMPLES="yes"
+   else
+      ENABLE_EXAMPLES="no"
+   fi
+
+   ENABLE_LIBRARIES="no"
+   if test "${ENABLE_UTILITIES}" == "yes" || \
+      test "${ENABLE_MAINTAINER}" == "yes" || \
+      test "${ENABLE_EXAMPLES}" == "yes"; then
+      if test "${ENABLE_LTLIBRARIES}" == "no"; then
+         ENABLE_LIBRARIES="yes"
+      else
+         ENABLE_LIBRARIES="no"
+      fi
+   fi
+
+   if test "${ENABLE_LIBRARIES}" == "yes" || test "${ENABLE_LTLIBRARIES}" == "yes";then
+      ENABLE_TESTS="yes"
+   else
+      ENABLE_TESTS=no
+   fi
+
+   # ENABLE_LTLIBRARIES
+   AM_CONDITIONAL([ENABLE_LTLIBRARIES],   [test "$ENABLE_LTLIBRARIES" = "yes"])
+   AM_CONDITIONAL([DISABLE_LTLIBRARIES],  [test "$ENABLE_LTLIBRARIES" = "no"])
+   # ENABLE_LIBRARIES
+   AM_CONDITIONAL([ENABLE_LIBRARIES],     [test "$ENABLE_LIBRARIES" = "yes"])
+   AM_CONDITIONAL([DISABLE_LIBRARIES],    [test "$ENABLE_LIBRARIES" = "no"])
+   # ENABLE_TESTS
+   AM_CONDITIONAL([ENABLE_TESTS],         [test "$ENABLE_TESTS" = "yes"])
+   AM_CONDITIONAL([DISABLE_TESTS],        [test "$ENABLE_TESTS" = "no"])
+   # ENABLE_UTILITIES
+   AM_CONDITIONAL([ENABLE_UTILITIES],     [test "$ENABLE_UTILITIES" = "yes"])
+   AM_CONDITIONAL([DISABLE_UTILITIES],    [test "$ENABLE_UTILITIES" = "no"])
+   # ENABLE_DEVELOPER
+   AM_CONDITIONAL([ENABLE_MAINTAINER],    [test "$ENABLE_MAINTAINER" = "yes"])
+   AM_CONDITIONAL([DISABLE_MAINTAINER],   [test "$ENABLE_MAINTAINER" = "no"])
+   # ENABLE_EXAMPLES
+   AM_CONDITIONAL([ENABLE_EXAMPLES],      [test "$ENABLE_EXAMPLES" = "yes"])
+   AM_CONDITIONAL([DISABLE_EXAMPLES],     [test "$ENABLE_EXAMPLES" = "no"])
+])dnl
+
 
 # end of m4 file
