@@ -62,6 +62,13 @@ AC_DEFUN([AC_ARGYLEWS_LIBRARIES],[dnl
       [ EEXAMPLES=$enableval ],
       [ EEXAMPLES=$enableval ]
    )
+   enableval=""
+   AC_ARG_ENABLE(
+      documentation,
+      [AS_HELP_STRING([--enable-documentation], [install extra documentation])],
+      [ EDOCUMENATION=$enableval ],
+      [ EDOCUMENATION=$enableval ]
+   )
 
    if test "x${ELIBRARIES}" == "xno";then
       ENABLE_LTLIBRARIES="no"
@@ -85,6 +92,12 @@ AC_DEFUN([AC_ARGYLEWS_LIBRARIES],[dnl
       ENABLE_EXAMPLES="yes"
    else
       ENABLE_EXAMPLES="no"
+   fi
+
+   if test "x${EDOCUMENATION}" == "xyes";then
+      ENABLE_DOCUMENATION="yes"
+   else
+      ENABLE_DOCUMENATION="no"
    fi
 
    ENABLE_LIBRARIES="no"
@@ -122,6 +135,9 @@ AC_DEFUN([AC_ARGYLEWS_LIBRARIES],[dnl
    # ENABLE_EXAMPLES
    AM_CONDITIONAL([ENABLE_EXAMPLES],      [test "$ENABLE_EXAMPLES" = "yes"])
    AM_CONDITIONAL([DISABLE_EXAMPLES],     [test "$ENABLE_EXAMPLES" = "no"])
+   # ENABLE_DOCUMENATION
+   AM_CONDITIONAL([ENABLE_DOCUMENATION],  [test "$ENABLE_DOCUMENATION" = "yes"])
+   AM_CONDITIONAL([DISABLE_DOCUMENATION], [test "$ENABLE_DOCUMENATION" = "no"])
 ])dnl
 
 

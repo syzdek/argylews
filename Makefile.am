@@ -130,6 +130,15 @@ if ENABLE_LTLIBRARIES
    lib_LTLIBRARIES			+= lib/libargylews.la
    include_HEADERS			+= include/argylews.h
 endif
+if ENABLE_DOCUMENATION
+   doc_DATA				+= docs/rfc6455.txt
+   doc_DATA				+= docs/rfc7936.txt
+   doc_DATA				+= docs/rfc8307.txt
+   doc_DATA				+= docs/rfc8441.txt
+   doc_DATA				+= docs/rfc9110.txt
+   doc_DATA				+= docs/rfc9112.txt
+   doc_DATA				+= docs/rfc9113.txt
+endif
 
 
 # macros for lib/libargylews.a
