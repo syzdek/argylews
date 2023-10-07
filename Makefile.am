@@ -79,7 +79,8 @@ bin_SCRIPTS				=
 pkgdata_DATA				=
 sbin_SCRIPTS				=
 sbin_PROGRAMS				=
-EXTRA_PROGRAMS				= tests/test-version
+EXTRA_PROGRAMS				= src/argylews \
+					  tests/test-version
 EXTRA					= include/argylews.h \
 					  lib/libargylews.la \
 					  lib/libargylews.a
@@ -130,6 +131,9 @@ if ENABLE_LTLIBRARIES
    lib_LTLIBRARIES			+= lib/libargylews.la
    include_HEADERS			+= include/argylews.h
 endif
+if ENABLE_UTILITIES
+   bin_PROGRAMS				+= src/argylews
+endif
 if ENABLE_TESTS
    TESTS				+= tests/test-version
 endif
@@ -165,6 +169,13 @@ lib_libargylews_la_LDFLAGS		= -rpath'$(libdir)' \
 					  $(AM_LDFLAGS) \
 					  -export-symbols $(srcdir)/lib/libargylews/libargylews.sym
 lib_libargylews_la_SOURCES		= $(lib_libargylews_a_SOURCES)
+
+
+# macros for src/argylews
+src_argylews_DEPENDENCIES		= Makefile $(noinst_LIBRARIES) $(lib_LTLIBRARIES)
+src_argylews_LDADD			= $(AM_LIBS) $(noinst_LIBRARIES) $(lib_LTLIBRARIES)
+src_argylews_SOURCES			= src/argylews-util.c \
+					  src/argylews-util.h
 
 
 # macros for tests/test-version
