@@ -32,6 +32,7 @@
  */
 #ifndef __ARGYLEWS_COMPAT_H
 #define __ARGYLEWS_COMPAT_H 1
+#undef ARGYLEWS_PMARK
 
 
 ///////////////////
@@ -39,7 +40,9 @@
 //  Definitions  //
 //               //
 ///////////////////
-#pragma mark - Definitions
+#ifdef ARGYLEWS_PMARK
+#   pragma mark - Definitions
+#endif
 
 // defined in the Single UNIX Specification
 #ifndef _XOPEN_SOURCE
