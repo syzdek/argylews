@@ -79,7 +79,7 @@ bin_SCRIPTS				=
 pkgdata_DATA				=
 sbin_SCRIPTS				=
 sbin_PROGRAMS				=
-EXTRA_PROGRAMS				=
+EXTRA_PROGRAMS				= tests/test-version
 EXTRA					= include/argylews.h \
 					  lib/libargylews.la \
 					  lib/libargylews.a
@@ -130,6 +130,9 @@ if ENABLE_LTLIBRARIES
    lib_LTLIBRARIES			+= lib/libargylews.la
    include_HEADERS			+= include/argylews.h
 endif
+if ENABLE_TESTS
+   TESTS				+= tests/test-version
+endif
 if ENABLE_DOCUMENATION
    doc_DATA				+= docs/rfc6455.txt
    doc_DATA				+= docs/rfc7936.txt
@@ -162,6 +165,12 @@ lib_libargylews_la_LDFLAGS		= -rpath'$(libdir)' \
 					  $(AM_LDFLAGS) \
 					  -export-symbols $(srcdir)/lib/libargylews/libargylews.sym
 lib_libargylews_la_SOURCES		= $(lib_libargylews_a_SOURCES)
+
+
+# macros for tests/test-version
+tests_test_version_DEPENDENCIES		= Makefile $(noinst_LIBRARIES) $(lib_LTLIBRARIES)
+tests_test_version_LDADD		= $(AM_LIBS) $(noinst_LIBRARIES) $(lib_LTLIBRARIES)
+tests_test_version_SOURCES		= tests/test-version.c
 
 
 # Makefile includes
